@@ -20,6 +20,8 @@ export default [
       '@stylistic/js/quotes': ['warn', 'single', { avoidEscape: true }],
       '@stylistic/js/eol-last': ['off', 'never'],
       '@stylistic/js/function-paren-newline': ["warn", { "minItems": 3 }],
+      '@stylistic/js/object-curly-spacing': ['warn', 'always'],
+      '@stylistic/js/multiline-comment-style': ['off', 'separate-lines'],
     },
     languageOptions: { globals: globals.browser }
   },

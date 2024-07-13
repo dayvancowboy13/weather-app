@@ -1,61 +1,44 @@
 import './style.css';
+import DOMController from './DOMController';
 import jsonData from './demo-data.json';
+import jsonData2 from './jul-13-data.json';
 
-const WeatherAPI = {
-    'queryURL': 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/',
-    'city': 'victoria',
-    'key': 'P8RGM9Y4ZKCJG7GNNZ8C47U59',
-    // 'units': '?unitGroup=metric',
 
-    testFunc(location) {
+function celsiusToFarenheit(tempCels) {
 
-        if (location !== undefined) {
-
-            this.city = location;
-
-        }
-
-        console.log(`${this.queryURL}${this.city}?key=${this.key}`);
-
-    },
-
-    async sendRequest(location) {
-
-        if (location !== undefined) {
-
-            city = location;
-
-        }
-        const response = await fetch(`${this.queryURL}${this.city}?key=${this.key}`,
-            { 'mode': 'cors' });
-        return response.json();
-
-    }
-};
-
-WeatherAPI.testFunc('hongkong');
-const jsonCity = jsonData.resolvedAddress;
-const jsonCurrentConditions = jsonData.currentConditions;
-const daysConditions = jsonData.days;
-
-class JSONParser {
-
-    static {
-
-        console.log('wow! I\'m born!');
-
-    }
+    // ℉=(℃*1.8)+32
+    return tempCels * 1.8 + 32;
 
 }
 
-// ℃=(℉-32)/1.8
-// ℉=(℃*1.8)+32
+function farenheitToCelsius(tempFaren) {
 
-console.log(jsonData);
+    // ℃=(℉-32)/1.8
+    return (tempFaren - 32) / 1.8;
+
+
+}
+
+console.log(celsiusToFarenheit(25));
+
+// const weatherDat = reduceJSON(jsonData);
+// console.log(weatherDat);
+
+// const weatherDat2 = reduceJSON(jsonData2);
+// console.log(weatherDat2);
+
+// WeatherAPI.sendRequest().then((json) => {
+
+//     console.log(json);
+//     reduceJSON(json);
+
+// }).
+//     then((r) => console.log(r)).
+//     catch((err) => console.error(err));
+
+
+// console.log(jsonData);
+
 
 // DOM functions:
 //  setCelciusOrFaren()
-
-
-// sendRequest().then((r) => console.log(r)).
-//     catch((err) => console.error(err));

@@ -1,3 +1,13 @@
 :root {
-    background-color: beige;
+    background-color: rgb(238, 244, 249);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --lightest: rgb(238,244,249);
+    --light-blue: rgb(142,180,209);
+    --mid-blue: rgb(0,95,184);
+    --dark: rgb(0,42,82);
+
+}
+
+header {
+    color: var(--mid-blue);
 }

@@ -2,7 +2,7 @@ import './style.css';
 import DOMController from './DOMController';
 import jsonData from './demo-data.json';
 import jsonData2 from './jul-13-data.json';
-
+import * as DateFns from 'date-fns';
 
 function celsiusToFarenheit(tempCels) {
 
@@ -19,7 +19,6 @@ function farenheitToCelsius(tempFaren) {
 
 }
 
-console.log(celsiusToFarenheit(25));
 
 // const weatherDat = reduceJSON(jsonData);
 // console.log(weatherDat);

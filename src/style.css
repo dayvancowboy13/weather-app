@@ -1,13 +1,59 @@
 :root {
     background-color: rgb(238, 244, 249);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --lightest: rgb(238,244,249);
-    --light-blue: rgb(142,180,209);
-    --mid-blue: rgb(0,95,184);
-    --dark: rgb(0,42,82);
+    --lightest: rgb(238, 244, 249);
+    --light-blue: rgb(142, 180, 209);
+    --mid-blue: rgb(0, 95, 184);
+    --dark: rgb(0, 42, 82);
+
+    padding: 5% 10%;
 
 }
 
 header {
     color: var(--mid-blue);
+}
+
+#temp {
+    margin: 7px 0;
+}
+
+#temp[data-unit='f']:after {
+    content: ' °F'
+}
+
+#temp[data-unit='c']:after {
+    content: ' °C'
+}
+
+button {
+    cursor: pointer;
+}
+
+#unit-switch {
+
+    box-sizing: border-box;
+    background-color: var(--light-blue);
+    border: none;
+    border-radius: 8px;
+    height: 26px;
+    padding: 10px auto;
+
+    & span {
+        padding: 2px 6px;
+    }
+
+}
+
+.button-unit {
+    font-size: larger;
+    color: var(--dark);
+}
+
+.button-unit.unit-selected {
+    font-weight: bold;
+    background-color: var(--dark);
+    color: white;
+    border-radius: 8px;
+    padding: 12px;
 }

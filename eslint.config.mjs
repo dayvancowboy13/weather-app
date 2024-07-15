@@ -22,6 +22,9 @@ export default [
       '@stylistic/js/function-paren-newline': ["warn", { "minItems": 3 }],
       '@stylistic/js/object-curly-spacing': ['warn', 'always'],
       '@stylistic/js/multiline-comment-style': ['off', 'separate-lines'],
+      '@stylistic/js/function-call-argument-newline': ["error", "consistent"],
+      '@stylistic/js/indent': ['warn', 4, { "SwitchCase": 1 }]
+
     },
     languageOptions: { globals: globals.browser }
   },

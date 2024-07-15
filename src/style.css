@@ -12,6 +12,28 @@
 
 header {
     color: var(--mid-blue);
+    font-size: larger;
+}
+
+#city-search {
+    font-size: 1.2em;
+    padding-left: 6px;
+    box-sizing: border-box;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom-color: var(--dark);
+
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#city-search:focus {
+    border-bottom-width: 3px;
+    outline: none;
+    background-color: rgba(0, 0, 0, 10%);
+    /* border-top: none;
+    border-right: none;
+    border-left: none; */
 }
 
 #temp {
@@ -30,7 +52,15 @@ button {
     cursor: pointer;
 }
 
+#current-conditions {
+    font-size: 1.1em;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+}
+
 #unit-switch {
+    /* flex: 0 0 auto; */
 
     box-sizing: border-box;
     background-color: var(--light-blue);
@@ -56,4 +86,39 @@ button {
     color: white;
     border-radius: 8px;
     padding: 12px;
+}
+
+#seven-day {
+    display: grid;
+    overflow: auto;
+    /* resize: both; */
+    gap: 4px;
+    grid-template-columns: repeat(7, 1fr);
+    border: 1px solid black;
+    max-width: 50vw;
+}
+
+.seven-day-card {
+    border: solid black 1px;
+    width: 150px;
+}
+
+[data-conditions]:before {
+    display: block;
+    min-width: 80px;
+    max-width: 100px;
+    min-height: 80px;
+    max-height: 100px;
+}
+
+[data-conditions='Clear']:before {
+    content: url('./images/svg icons/conditions/clear-day.svg');
+}
+
+[data-conditions='Partially-cloudy']:before {
+    content: url('./images/svg icons/conditions/partly-cloudy-day.svg');
+}
+
+[data-conditions='Overcast']:before {
+    content: url('./images/svg icons/conditions/cloudy.svg');
 }

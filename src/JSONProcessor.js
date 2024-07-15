@@ -36,12 +36,34 @@ export default class JSONProcessor {
             'sevenDays': rawJSON.days.slice(1,
                 8)
         };
+        // console.log(this.weatherJSON);
+
+    }
+
+    static getSevenDays() {
+
+        const days = [];
+
+        for (let day of this.weatherJSON.sevenDays) {
+
+            days.push({
+                [`${format(day.datetime.replace(/-/g, '\/'), 'iiii, MMMM do')}`]: {
+                    'temp': day.temp,
+                    'tempMin': day.tempmin,
+                    'tempMax': day.tempmax,
+                    'conditions': day.conditions,
+                    'icon': day.icon
+                }
+            });
+
+        }
+
+        return days;
 
     }
 
     static getCurrentConditions() {
 
-        // return this.weatherJSON;
         return {
             'city': this.weatherJSON.city,
             'date': `${format(this.weatherJSON.localDate,
@@ -50,8 +72,7 @@ export default class JSONProcessor {
                 this.weatherJSON.currentConditions.time,
                 'HH:mm:ss',
                 new Date()
-            ),
-                'p'),
+            ), 'p'),
             'temp': this.weatherJSON.currentConditions.temp,
             'conditions': this.weatherJSON.currentConditions.conditions
         };

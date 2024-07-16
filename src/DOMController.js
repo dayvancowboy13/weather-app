@@ -2,7 +2,6 @@ import WeatherAPI from './WeatherAPI.js';
 import JSONProcessor from './JSONProcessor.js';
 import jsonData from './demo-data.json';
 import jsonData2 from './jul-13-data.json';
-import myIcon from './images/svg icons/conditions/clear-day.svg';
 
 export default class DOMController {
 
@@ -17,13 +16,9 @@ export default class DOMController {
         console.log('DOMController initiating...');
         this.searchBtn = document.querySelector('#submit-search');
         this.searchBar = document.querySelector('#city-search');
-        this.rePattern = /[ ,]*/;
 
-        // this.altButtons();
-
-
-        this.setupSearchBtn();
-
+        this.altButtons();
+        // this.setupSearchBtn();
 
     }
 
@@ -37,6 +32,7 @@ export default class DOMController {
                     JSONProcessor.init(json);
                     this.renderCurrentConditions();
                     this.renderSevenDays();
+                    this.renderHourly();
 
                 }).
                     catch((err) => console.error(err));
@@ -50,9 +46,12 @@ export default class DOMController {
         this.searchBtn.addEventListener('click',
             () => {
 
-                JSONProcessor.init(jsonData2);
+                JSONProcessor.init(jsonData);
+                const mainDisplay = document.querySelector('#main-display-container');
                 this.renderCurrentConditions();
                 this.renderSevenDays();
+                this.renderHourly();
+                mainDisplay.style.display = 'block';
 
             });
 
@@ -65,15 +64,52 @@ export default class DOMController {
         const data = JSONProcessor.getCurrentConditions();
 
         currentConditions.innerHTML = `
+        <div id='current-conditions-main'>
         <h2 id="city">${data.city}</h2>
         <h3 id="datetime">${data.date}<br>${data.time}</h3>
-        <h1 id="temp" data-unit='c'>${Math.round((data.temp - 32) / 1.8 * 10) / 10}</h1>
+        <h1 id="temp" data-unit='c'>${this.#convertToCelsius(data.temp)}</h1>
+        <div id='hi-low-temp'>High: <span data-unit='c'>${this.#convertToCelsius(data.tempMax)}</span><br>Low: <span data-unit='c'>${this.#convertToCelsius(data.tempMin)}</span></div>
         <button id='unit-switch'></button>
-        <p class="conditions" data-conditions=${data.conditions.replace(this.rePattern, '-')}>${data.conditions}</p>
+        <p class="conditions" data-icon=${data.icon}>${data.conditions}</p>
+        <div id='expand-details-btn' class='details-hidden'></div>
+        </div>
+        <div id='current-conditions-details' style='display: none;'>
+        <p>Feels like: <span data-unit='c'>${this.#convertToCelsius(data.feelsLike)}</span></p>
+        <p>Humidity: ${data.humidity}</p>
+        <p>Precipitation: ${data.precip}</p>
+        <p>Pressure: ${data.pressure}</p>
+        <p>Sunrise: ${data.sunrise}</p>
+        <p>UV: ${data.uvindex}</p>
+        </div>
         `;
 
-        this.#initTempUnitSwitchButton(currentConditions.querySelector('button'));
+        this.#initTempUnitSwitchButton(currentConditions.querySelector('#unit-switch'));
+        this.#createDetailsButton();
 
+
+    }
+
+    static #createDetailsButton() {
+
+        const btn = document.querySelector('#expand-details-btn');
+
+        btn.addEventListener('click', () => {
+
+            const detailsDiv = document.querySelector('#current-conditions-details');
+            if (detailsDiv.style.display !== 'grid') {
+
+                detailsDiv.style.display = 'grid';
+                btn.classList.toggle('details-shown');
+
+            } else {
+
+                detailsDiv.style.display = 'none';
+                btn.classList.toggle('details-shown');
+
+            }
+
+
+        });
 
     }
 
@@ -82,19 +118,46 @@ export default class DOMController {
         const sevenDays = document.querySelector('#seven-day');
         const data = JSONProcessor.getSevenDays();
 
-        for (let day of data) {
+        sevenDays.innerHTML = '';
 
-            console.log(day[Object.keys(day)].conditions);
+        for (let day of data) {
 
             sevenDays.innerHTML += `
             <div class='seven-day-card'>
             <h3>${Object.keys(day)[0]}</h3>
-            <h1 id='temp' data-unit='c'>${Math.round((day[Object.keys(day)].temp - 32) / 1.8 * 10) / 10}</h1>
-            <p class="conditions" data-conditions=${day[Object.keys(day)].conditions.replace(this.rePattern, '-')}></p>
+            <h1 id='temp' data-unit='c'>${this.#convertToCelsius(day[Object.keys(day)].temp)}</h1>
+            <p class="conditions" data-icon=${day[Object.keys(day)].icon}></p>
             </div>
             `;
 
         }
+
+    }
+
+    static renderHourly() {
+
+        const hourly = document.querySelector('#today-hourly-conditions');
+        const data = JSONProcessor.getHourly();
+
+        hourly.innerHTML = '';
+
+        for (let hour of data) {
+
+            hourly.innerHTML += `
+            <div class='hourly-card'>
+            <h3>${Object.keys(hour)[0]}</h3>
+            <h1 id='temp' data-unit='c'>${this.#convertToCelsius(hour[Object.keys(hour)].temp)}</h1>
+            <p class="conditions" data-icon=${hour[Object.keys(hour)].icon}></p>
+            </div>
+            `;
+
+        }
+
+    }
+
+    static #convertToCelsius(temp) {
+
+        return Math.round((temp - 32) / 1.8 * 10) / 10;
 
     }
 

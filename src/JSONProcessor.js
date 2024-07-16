@@ -11,7 +11,7 @@ export default class JSONProcessor {
             'localDate': rawJSON.days[0].datetime,
             'currentConditions': {
                 'cloudCover': rawJSON.currentConditions.cloudcover,
-                'conditions': rawJSON.currentConditions.conditions,
+                'conditions': this.#formatConditions(rawJSON.currentConditions.conditions),
                 'time': rawJSON.currentConditions.datetime, // time of the reading
                 'feelsLike': rawJSON.currentConditions.feelslike,
                 'humidity': rawJSON.currentConditions.humidity,
@@ -51,7 +51,7 @@ export default class JSONProcessor {
                     'temp': day.temp,
                     'tempMin': day.tempmin,
                     'tempMax': day.tempmax,
-                    'conditions': day.conditions,
+                    'conditions': this.#formatConditions(day.conditions),
                     'icon': day.icon
                 }
             });
@@ -59,6 +59,32 @@ export default class JSONProcessor {
         }
 
         return days;
+
+    }
+
+    static getHourly() {
+
+        const hours = [];
+        console.log(this.weatherJSON.today.hourlyForecasts);
+
+        for (let hour of this.weatherJSON.today.hourlyForecasts) {
+
+            hours.push({
+                [`${format(parse(
+                    hour.datetime, 'HH:mm:ss', new Date()
+                ), 'h  b')}`]: {
+                    'temp': hour.temp,
+                    'conditions': hour.conditions,
+                    'icon': hour.icon
+
+                }
+            });
+
+        }
+
+        console.log(hours);
+
+        return hours;
 
     }
 
@@ -74,8 +100,42 @@ export default class JSONProcessor {
                 new Date()
             ), 'p'),
             'temp': this.weatherJSON.currentConditions.temp,
-            'conditions': this.weatherJSON.currentConditions.conditions
+            'tempMin': this.weatherJSON.today.tempMin,
+            'tempMax': this.weatherJSON.today.tempMax,
+            'conditions': this.weatherJSON.currentConditions.conditions,
+            'icon': this.weatherJSON.currentConditions.icon,
+            'feelsLike': this.weatherJSON.currentConditions.feelsLike,
+            'humidity': this.weatherJSON.currentConditions.humidity,
+            'precip': this.weatherJSON.currentConditions.precip,
+            'pressure': this.weatherJSON.currentConditions.pressure,
+            'snow': this.weatherJSON.currentConditions.snow,
+            'sunrise': format(parse(
+                this.weatherJSON.currentConditions.sunrise,
+                'HH:mm:ss',
+                new Date()
+            ), 'h:m b'),
+            'uvindex': this.weatherJSON.currentConditions.uvindex,
+            'wind': {
+                'dir': this.weatherJSON.currentConditions.winddir,
+                'gust': this.weatherJSON.currentConditions.windgust,
+                'speed': this.weatherJSON.currentConditions.windspeed
+            }
         };
+
+    }
+
+
+    static #formatConditions(conditions) {
+
+        if (conditions.includes(',')) {
+
+            let index = conditions.indexOf(',');
+            console.log(conditions.slice(0, index));
+            return conditions.slice(0, index);
+
+        }
+
+        return conditions.replace(' ', '-');
 
     }
 

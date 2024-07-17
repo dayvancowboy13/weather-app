@@ -65,7 +65,7 @@ export default class JSONProcessor {
     static getHourly() {
 
         const hours = [];
-        console.log(this.weatherJSON.today.hourlyForecasts);
+        // console.log(this.weatherJSON.today.hourlyForecasts);
 
         for (let hour of this.weatherJSON.today.hourlyForecasts) {
 
@@ -82,7 +82,7 @@ export default class JSONProcessor {
 
         }
 
-        console.log(hours);
+        // console.log(hours);
 
         return hours;
 
@@ -113,12 +113,12 @@ export default class JSONProcessor {
                 this.weatherJSON.currentConditions.sunrise,
                 'HH:mm:ss',
                 new Date()
-            ), 'h:m b'),
+            ), 'h:mm b'),
             'uvindex': this.weatherJSON.currentConditions.uvindex,
             'wind': {
                 'dir': this.weatherJSON.currentConditions.winddir,
                 'gust': this.weatherJSON.currentConditions.windgust,
-                'speed': this.weatherJSON.currentConditions.windspeed
+                'speed': this.weatherJSON.currentConditions.wind.speed
             }
         };
 

@@ -17,8 +17,8 @@ export default class DOMController {
         this.searchBtn = document.querySelector('#submit-search');
         this.searchBar = document.querySelector('#city-search');
 
-        this.altButtons();
-        // this.setupSearchBtn();
+        // this.altButtons();
+        this.setupSearchBtn();
 
     }
 
@@ -30,12 +30,25 @@ export default class DOMController {
                 WeatherAPI.sendRequest(this.getCity()).then((json) => {
 
                     JSONProcessor.init(json);
+                    const mainDisplay = document.querySelector('#main-display-container');
                     this.renderCurrentConditions();
                     this.renderSevenDays();
                     this.renderHourly();
+                    mainDisplay.style.display = 'block';
 
                 }).
-                    catch((err) => console.error(err));
+                    catch((err) => {
+
+                        console.error(err);
+                        this.searchBar.setCustomValidity('Something went wrong! Please try again.');
+                        this.searchBar.reportValidity();
+                        setTimeout(() => {
+
+                            this.searchBar.setCustomValidity('');
+
+                        }, 5000);
+
+                    });
 
             });
 
@@ -70,16 +83,18 @@ export default class DOMController {
         <h1 id="temp" data-unit='c'>${this.#convertToCelsius(data.temp)}</h1>
         <div id='hi-low-temp'>High: <span data-unit='c'>${this.#convertToCelsius(data.tempMax)}</span><br>Low: <span data-unit='c'>${this.#convertToCelsius(data.tempMin)}</span></div>
         <button id='unit-switch'></button>
-        <p class="conditions" data-icon=${data.icon}>${data.conditions}</p>
+        <p id="conditions" data-icon=${data.icon}>${data.conditions}</p>
         <div id='expand-details-btn' class='details-hidden'></div>
         </div>
         <div id='current-conditions-details' style='display: none;'>
+        <h3>Details:</h3>
         <p>Feels like: <span data-unit='c'>${this.#convertToCelsius(data.feelsLike)}</span></p>
-        <p>Humidity: ${data.humidity}</p>
-        <p>Precipitation: ${data.precip}</p>
-        <p>Pressure: ${data.pressure}</p>
-        <p>Sunrise: ${data.sunrise}</p>
-        <p>UV: ${data.uvindex}</p>
+        <p>Humidity: <span id="humidity">${data.humidity}%</span></p>
+        <p>Precipitation: <span id="precip">${data.precip} inches</span></p>
+        <p>Pressure: <span id="pressure">${data.pressure} mb</span></p>
+        <p>Sunrise: <span id="sunrise">${data.sunrise}</span></p>
+        <p>UV Index: <span id='uv' data-uv='${data.uvindex}'>${data.uvindex}</p>
+        <p>Wind: <span id="windspeed">${data.wind.speed} mph</span></p>
         </div>
         `;
 

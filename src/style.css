@@ -3,7 +3,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --lightest: rgb(238, 244, 249);
     --light-blue: rgb(142, 180, 209);
-    --mid-blue: rgb(0, 95, 184);
+    --mid-blue: #005fb8;
     --dark: #002a52;
 
     padding: 5% 10%;
@@ -69,8 +69,8 @@ button {
     display: grid;
     grid-auto-flow: column;
     grid-template-columns: 1fr;
-    grid-auto-columns: 1fr;
-    gap: 20px;
+    grid-auto-columns: auto;
+    gap: 30px;
 
     & h2 {
         margin-top: 0;
@@ -81,7 +81,45 @@ button {
     }
 }
 
+#current-conditions-main {
+    display: grid;
+    grid-template-rows: auto 60px auto 45px 25px auto;
+    /* grid-template-rows: auto 40px; */
+
+    grid-template-columns: auto 40px;
+
+    & #city {
+        grid-row: 1/2;
+        margin-bottom: 5px
+    }
+
+    & #datetime {
+        grid-row: 2/3;
+        margin: 5px;
+    }
+
+    & #temp {
+        grid-row: 3/4;
+    }
+
+    & #hi-low-temp {
+        grid-row: 4/5;
+    }
+
+    & #unit-switch {
+        grid-row: 5/6;
+        justify-self: start;
+    }
+
+    & #conditions {
+        grid-row: 6/7;
+    }
+}
+
 #expand-details-btn {
+    align-self: end;
+    grid-row: 6/7;
+    grid-column: 2/3;
     cursor: pointer;
     border: none;
     content: url('./images/svg icons/expand_arrow.svg');
@@ -93,8 +131,21 @@ button {
 }
 
 #current-conditions-details {
+    justify-items: end;
     text-align: center;
     width: auto;
+    font-size: .8em;
+
+    & span {
+        font-weight: bolder;
+        font-size: 1.4em;
+    }
+
+    & h3 {
+        justify-self: center;
+        margin: 2px 0 0 0;
+
+    }
 
 }
 
@@ -130,17 +181,14 @@ button {
 #today-hourly-conditions {
     display: grid;
     overflow: auto;
-
-    gap: 4px;
+    gap: 7px;
     grid-template-columns: repeat(24, 1fr);
-    /* border: 1px solid black; */
     max-width: 50vw;
     padding: 2px 5px;
 }
 
 .hourly-card {
     box-sizing: border-box;
-    /* border: solid black 1px; */
     width: 150px;
     padding: 8px;
     background-color: var(--light-blue);
@@ -154,7 +202,7 @@ button {
     display: grid;
     overflow: auto;
 
-    gap: 4px;
+    gap: 7px;
     grid-template-columns: repeat(7, 1fr);
     /* border: 1px solid black; */
     max-width: 50vw;
@@ -240,4 +288,41 @@ button {
 
 [data-icon='snow']:before {
     content: url('./images/svg icons/conditions/snow.svg');
+}
+
+[data-uv='0'],
+[data-uv='1'],
+[data-uv='2']:after {
+    content: " (Low)";
+    color: #029000;
+}
+
+[data-uv='3'],
+[data-uv='4'],
+[data-uv='5']:after {
+    content: " (Moderate)";
+    color: #b8b800;
+}
+
+[data-uv='6'],
+[data-uv='7']:after {
+    content: " (High)";
+    color: #B85900;
+
+}
+
+[data-uv='8'],
+[data-uv='9'],
+[data-uv='10']:after {
+    content: " (Very High)";
+    color: #b82500;
+}
+
+[data-uv='11'],
+[data-uv='12'],
+[data-uv='13'],
+[data-uv='14'],
+[data-uv='15']:after {
+    content: " (Extreme)";
+    color: #e80000;
 }

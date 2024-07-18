@@ -6,7 +6,7 @@ export default [
   {
     ignores: [
       'eslint.config.mjs',
-      'webpack.config.js',
+      'webpack.common.js',
     ]
   },
   {

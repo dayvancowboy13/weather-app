@@ -2,7 +2,6 @@ const WeatherAPI = {
     'queryURL': 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/',
     'city': 'victoria',
     'key': 'P8RGM9Y4ZKCJG7GNNZ8C47U59',
-    // 'units': '?unitGroup=metric',
 
     async sendRequest(location) {
 

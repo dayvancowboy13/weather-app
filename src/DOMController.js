@@ -1,15 +1,8 @@
 import WeatherAPI from './WeatherAPI.js';
 import JSONProcessor from './JSONProcessor.js';
 import jsonData from './demo-data.json';
-import jsonData2 from './jul-13-data.json';
 
 export default class DOMController {
-
-    constructor() {
-
-        console.log('constructing!');
-
-    }
 
     static {
 
